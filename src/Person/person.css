@@ -1,0 +1,16 @@
+.Person button {
+  border: 1px solid black;
+  border-radius: none;
+  padding: 5px;
+  margin-left: 20px;
+  position: relative;
+  bottom: 3px;
+}
+
+.Person button:hover {
+  background-color: cornflowerblue;
+}
+
+.Person-relation-group {
+  margin-top: 40px;
+}

@@ -7,13 +7,23 @@ import db from '../db';
 const PersonIndex = () => (
 
   <div className="PersonIndex">
-    <header className="PersonIndex-header">
-      <h1 className="PersonIndex-title">PERSON INDEX: Who are you?</h1>
-    </header>
+
+    <h1 className="PersonIndex-header">
+      Hustle Family Tree
+    </h1>
+    <h2 className="PersonIndex-subheader">
+      select your name to begin exploring
+    </h2>
 
     <ul>
-      {db.map(person => (
-        <li key={person["id"]}>
+      {db.sort((personA, personB) => {
+        if (personA["firstName"] < personB["firstName"]) //sort string ascending
+          return -1;
+        if (personA["firstName"] > personB["firstName"])
+          return 1;
+        return 0;
+      }).map(person => (
+        <li key={person["id"]} className="PersonIndex-li">
           <Link to={`${person["id"]}`}>
             {person["firstName"] + " " + person["lastName"]}
           </Link>

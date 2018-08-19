@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import { Link } from "react-router-dom";
-// import logo from './logo.svg';
 import './person.css';
 
 import peopleDict from '../peopleDict.js'
@@ -14,8 +13,6 @@ class Person extends Component {
   }
 
   toggleRelationList(relation) {
-    console.log(relation)
-    console.log(this.state[relation+ "List"])
     this.setState({[relation + "List"]: !this.state[relation + "List"]})
   }
 
@@ -23,6 +20,7 @@ class Person extends Component {
   relationList(person, relation) {
     const relationKey = relation + "Ids";
     const relationIds = person[relationKey]
+    const pluralize = {parent: "parents", sibling: "siblings", children: "children"}
 
     let list;
     if (this.state[relation + "List"]) {
@@ -40,13 +38,15 @@ class Person extends Component {
     }
 
     return (
-      <div>
-        <h2> {relation} : {relationIds.length} </h2>
-        {relationIds.length > 0 ? (
-          <button onClick={this.toggleRelationList.bind(this, relation)}>
-            {this.state[relation + "List"] ? "hide" : "show"}
-          </button>
-        ) : undefined }
+      <div className="Person-relation-group">
+        <h2>
+          {pluralize[relation]} : {relationIds.length}
+          {relationIds.length > 0 ? (
+            <button onClick={this.toggleRelationList.bind(this, relation)}>
+              {this.state[relation + "List"] ? "hide" : "show"}
+            </button>
+          ) : undefined }
+         </h2>
         {list}
       </div>
     )
@@ -55,18 +55,15 @@ class Person extends Component {
   render() {
     const person = peopleDict[this.props.match.params["personId"]]
     return (
-      <div>
-        <h1> Name: {person["firstName"] + " " + person["lastName"]} </h1>
-
+      <div className="Person">
+        <Link to={"/"}>People Index</Link>
+        <h1> name: {person["firstName"] + " " + person["lastName"]} </h1>
         <div>
           {this.relationList(person, "parent")}
           {this.relationList(person, "sibling")}
           {this.relationList(person, "children")}
         </div>
-
-
       </div>
-
     );
   }
 }
